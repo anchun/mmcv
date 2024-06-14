@@ -15,7 +15,7 @@ void MaskedIm2colForwardCUDAKernelLauncher(const Tensor bottom_data,
   int output_size = mask_cnt * channels;
 
   at::cuda::CUDAGuard device_guard(bottom_data.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       bottom_data.scalar_type(), "MaskedIm2colLaucherForward", ([&] {
         const scalar_t *bottom_data_ = bottom_data.data_ptr<scalar_t>();
@@ -37,7 +37,7 @@ void MaskedCol2imForwardCUDAKernelLauncher(
   int output_size = mask_cnt * channels;
 
   at::cuda::CUDAGuard device_guard(bottom_data.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       bottom_data.scalar_type(), "MaskedCol2imLaucherForward", ([&] {
         const scalar_t *bottom_data_ = bottom_data.data_ptr<scalar_t>();

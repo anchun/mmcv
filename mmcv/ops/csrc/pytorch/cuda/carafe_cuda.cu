@@ -24,7 +24,7 @@ void CARAFEForwardCUDAKernelLauncher(const Tensor features, const Tensor masks,
 
   // one warp per pixel
   at::cuda::CUDAGuard device_guard(features.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       features.scalar_type(), "NCHW2NHWC_Feature", ([&] {
         const scalar_t *bottom_data = features.data_ptr<scalar_t>();
@@ -97,7 +97,7 @@ void CARAFEBackwardCUDAKernelLauncher(
   rmask_grad.resize_({batch_size, output_height, output_width, mask_channels});
 
   at::cuda::CUDAGuard device_guard(top_grad.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       top_grad.scalar_type(), "NCHW2NHWC_Top_Grad", ([&] {
         const scalar_t *bottom_data = top_grad.data_ptr<scalar_t>();

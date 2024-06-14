@@ -13,7 +13,7 @@ void ROIAlignForwardCUDAKernelLauncher(Tensor input, Tensor rois, Tensor output,
   int width = input.size(3);
 
   at::cuda::CUDAGuard device_guard(input.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       input.scalar_type(), "roi_align_forward_cuda_kernel", [&] {
         roi_align_forward_cuda_kernel<scalar_t>
@@ -41,7 +41,7 @@ void ROIAlignBackwardCUDAKernelLauncher(Tensor grad_output, Tensor rois,
   int width = grad_input.size(3);
 
   at::cuda::CUDAGuard device_guard(grad_output.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       grad_output.scalar_type(), "roi_align_backward_cuda_kernel", [&] {
         roi_align_backward_cuda_kernel<scalar_t>

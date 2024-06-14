@@ -19,7 +19,7 @@ void BallQueryForwardCUDAKernelLauncher(int b, int n, int m, float min_radius,
   //      idx: (B, M, nsample)
 
   at::cuda::CUDAGuard device_guard(new_xyz.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   // blockIdx.x(col), blockIdx.y(row)
   dim3 blocks(DIVUP(m, THREADS_PER_BLOCK), b);

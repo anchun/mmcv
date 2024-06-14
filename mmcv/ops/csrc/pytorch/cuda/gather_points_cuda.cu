@@ -13,7 +13,7 @@ void GatherPointsForwardCUDAKernelLauncher(int b, int c, int n, int npoints,
   //      out: (B, C, npoints)
 
   at::cuda::CUDAGuard device_guard(points.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   // blockIdx.x(col), blockIdx.y(row)
   dim3 blocks(DIVUP(npoints, THREADS_PER_BLOCK), c, b);
@@ -40,7 +40,7 @@ void GatherPointsBackwardCUDAKernelLauncher(int b, int c, int n, int npoints,
   //      grad_points: (B, C, N)
 
   at::cuda::CUDAGuard device_guard(grad_out.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   // blockIdx.x(col), blockIdx.y(row)
   dim3 blocks(DIVUP(npoints, THREADS_PER_BLOCK), c, b);

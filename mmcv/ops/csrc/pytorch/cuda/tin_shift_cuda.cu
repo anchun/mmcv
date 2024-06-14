@@ -15,7 +15,7 @@ void TINShiftForwardCUDAKernelLauncher(Tensor input, Tensor shift,
   int num_kernels = batch_size * hw_size * channels;
 
   at::cuda::CUDAGuard device_guard(input.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       input.scalar_type(), "tin_shift_forward_cuda_kernel", [&] {
         tin_shift_forward_cuda_kernel<scalar_t>
@@ -40,7 +40,7 @@ void TINShiftBackwardCUDAKernelLauncher(Tensor grad_output, Tensor shift,
   int num_kernels = batch_size * hw_size * channels;
 
   at::cuda::CUDAGuard device_guard(grad_output.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       grad_output.scalar_type(), "tin_shift_backward_cuda_kernel", [&] {
         tin_shift_backward_cuda_kernel<scalar_t>

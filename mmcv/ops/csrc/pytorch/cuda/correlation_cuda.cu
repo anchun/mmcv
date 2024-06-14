@@ -39,7 +39,7 @@ void CorrelationForwardCUDAKernelLauncher(Tensor input1, Tensor input2,
             output.packed_accessor32<scalar_t, 5, RestrictPtrTraits>();
 
         correlation_forward_cuda_kernel<scalar_t>
-            <<<blocks, threads, 0, at::cuda::getCurrentCUDAStream()>>>(
+            <<<blocks, threads, 0, c10::cuda::getCurrentCUDAStream()>>>(
                 trInput1_acc, trInput2_acc, output_acc, kH, kW, patchH, patchW,
                 padH, padW, dilationH, dilationW, dilation_patchH,
                 dilation_patchW, dH, dW);
@@ -76,7 +76,7 @@ void CorrelationBackwardCUDAKernelLauncher(
 
         for (int n = 0; n < batch_size; ++n) {
           correlation_backward_cuda_kernel_input1<scalar_t>
-              <<<blocks, threads, 0, at::cuda::getCurrentCUDAStream()>>>(
+              <<<blocks, threads, 0, c10::cuda::getCurrentCUDAStream()>>>(
                   grad_output_acc, input2_acc, grad_input1_acc, kH, kW, patchH,
                   patchW, padH, padW, dilationH, dilationW, dilation_patchH,
                   dilation_patchW, dH, dW, n);
@@ -84,7 +84,7 @@ void CorrelationBackwardCUDAKernelLauncher(
 
         for (int n = 0; n < batch_size; ++n) {
           correlation_backward_cuda_kernel_input2<scalar_t>
-              <<<blocks, threads, 0, at::cuda::getCurrentCUDAStream()>>>(
+              <<<blocks, threads, 0, c10::cuda::getCurrentCUDAStream()>>>(
                   grad_output_acc, input1_acc, grad_input2_acc, kH, kW, patchH,
                   patchW, padH, padW, dilationH, dilationW, dilation_patchH,
                   dilation_patchW, dH, dW, n);

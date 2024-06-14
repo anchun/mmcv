@@ -20,7 +20,7 @@ void ThreeInterpolateForwardCUDAKernelLauncher(int b, int c, int m, int n,
   //      out: (B, C, N)
 
   at::cuda::CUDAGuard device_guard(points.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   // blockIdx.x(col), blockIdx.y(row)
   dim3 blocks(DIVUP(n, THREADS_PER_BLOCK), c, b);
@@ -48,7 +48,7 @@ void ThreeInterpolateBackwardCUDAKernelLauncher(int b, int c, int n, int m,
   //      grad_points: (B, C, M)
 
   at::cuda::CUDAGuard device_guard(grad_out.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   // blockIdx.x(col), blockIdx.y(row)
   dim3 blocks(DIVUP(n, THREADS_PER_BLOCK), c, b);

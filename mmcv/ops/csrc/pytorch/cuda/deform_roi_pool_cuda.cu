@@ -13,7 +13,7 @@ void DeformRoIPoolForwardCUDAKernelLauncher(Tensor input, Tensor rois,
   int width = input.size(3);
 
   at::cuda::CUDAGuard device_guard(input.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       input.scalar_type(), "deform_roi_pool_forward_cuda_kernel", [&] {
         deform_roi_pool_forward_cuda_kernel<scalar_t>
@@ -38,7 +38,7 @@ void DeformRoIPoolBackwardCUDAKernelLauncher(
   int width = grad_input.size(3);
 
   at::cuda::CUDAGuard device_guard(grad_output.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       grad_output.scalar_type(), "deform_roi_pool_backward_cuda_kernel", [&] {
         deform_roi_pool_backward_cuda_kernel<scalar_t>

@@ -23,7 +23,7 @@ void BorderAlignForwardCUDAKernelLauncher(const Tensor &input,
   int nthreads = batch_size * channels * box_size;
 
   at::cuda::CUDAGuard device_guard(input.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   dim3 block(128, 4);
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       input.scalar_type(), "border_align_forward_cuda_kernel", [&] {
@@ -52,7 +52,7 @@ void BorderAlignBackwardCUDAKernelLauncher(const Tensor &grad_output,
   int nthreads = batch_size * channels * box_size;
 
   at::cuda::CUDAGuard device_guard(grad_output.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   dim3 block(128, 4);
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       grad_output.scalar_type(), "border_align_backward_cuda_kernel", [&] {

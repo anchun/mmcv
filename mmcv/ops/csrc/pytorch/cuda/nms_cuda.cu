@@ -18,7 +18,7 @@ Tensor NMSCUDAKernelLauncher(Tensor boxes, Tensor scores, float iou_threshold,
       at::empty({boxes_num, col_blocks}, boxes.options().dtype(at::kLong));
   dim3 blocks(col_blocks, col_blocks);
   dim3 threads(threadsPerBlock);
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   nms_cuda<<<blocks, threads, 0, stream>>>(
       boxes_num, iou_threshold, offset, boxes_sorted.data_ptr<float>(),
       (unsigned long long*)mask.data_ptr<int64_t>());

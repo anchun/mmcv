@@ -12,7 +12,7 @@ void SigmoidFocalLossForwardCUDAKernelLauncher(Tensor input, Tensor target,
   AT_ASSERTM(target.max().item<int64_t>() <= (int64_t)num_classes,
              "target label should smaller or equal than num classes");
   at::cuda::CUDAGuard device_guard(input.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       input.scalar_type(), "sigmoid_focal_loss_forward_cuda_kernel", [&] {
         sigmoid_focal_loss_forward_cuda_kernel<scalar_t>
@@ -34,7 +34,7 @@ void SigmoidFocalLossBackwardCUDAKernelLauncher(Tensor input, Tensor target,
   int num_classes = input.size(1);
 
   at::cuda::CUDAGuard device_guard(grad_input.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       input.scalar_type(), "sigmoid_focal_loss_backward_cuda_kernel", [&] {
         sigmoid_focal_loss_backward_cuda_kernel<scalar_t>
@@ -57,7 +57,7 @@ void SoftmaxFocalLossForwardCUDAKernelLauncher(Tensor softmax, Tensor target,
   AT_ASSERTM(target.max().item<int64_t>() <= (int64_t)num_classes,
              "target label should smaller or equal than num classes");
   at::cuda::CUDAGuard device_guard(softmax.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       softmax.scalar_type(), "softmax_focal_loss_forward_cuda_kernel", [&] {
         softmax_focal_loss_forward_cuda_kernel<scalar_t>
@@ -79,7 +79,7 @@ void SoftmaxFocalLossBackwardCUDAKernelLauncher(Tensor softmax, Tensor target,
 
   int output_size = buff.numel();
   at::cuda::CUDAGuard device_guard(grad_input.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       grad_input.scalar_type(),
       "softmax_focal_loss_backward_cuda1_"

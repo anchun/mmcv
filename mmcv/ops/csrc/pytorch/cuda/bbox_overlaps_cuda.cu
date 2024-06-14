@@ -10,7 +10,7 @@ void BBoxOverlapsCUDAKernelLauncher(const Tensor bboxes1, const Tensor bboxes2,
   int num_bbox2 = bboxes2.size(0);
 
   at::cuda::CUDAGuard device_guard(bboxes1.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       bboxes1.scalar_type(), "bbox_overlaps_cuda_kernel", ([&] {
         bbox_overlaps_cuda_kernel<scalar_t>

@@ -21,7 +21,7 @@ void RoiawarePool3dForwardCUDAKernelLauncher(
   // max_pool 1: avg_pool
 
   at::cuda::CUDAGuard device_guard(pts_feature.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   Tensor pts_mask =
       -at::ones({boxes_num, pts_num}, pts_feature.options().dtype(at::kInt));
@@ -91,7 +91,7 @@ void RoiawarePool3dBackwardCUDAKernelLauncher(
   // params pool_method: 0: max_pool, 1: avg_pool
 
   at::cuda::CUDAGuard device_guard(grad_out.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   dim3 blocks(DIVUP(out_x * out_y * out_z, THREADS_PER_BLOCK), channels,
               boxes_num);

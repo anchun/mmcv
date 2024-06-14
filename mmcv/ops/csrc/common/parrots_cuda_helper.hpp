@@ -14,7 +14,7 @@
 
 #include "common_cuda_helper.hpp"
 #include "parrots_cudawarpfunction.cuh"
-
+#include <c10/cuda/CUDAStream.h>
 using namespace parrots;
 using phalf = float16;
 

@@ -21,7 +21,7 @@ Tensor nms_rotated_cuda(const Tensor dets, const Tensor scores,
 
   dim3 blocks(col_blocks, col_blocks);
   dim3 threads(threadsPerBlock);
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       dets_sorted.scalar_type(), "nms_rotated_kernel_cuda", [&] {

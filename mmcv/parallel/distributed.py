@@ -45,7 +45,7 @@ class MMDistributedDataParallel(DistributedDataParallel):
                 logger='mmcv')
 
         if getattr(self, 'require_forward_param_sync', True):
-            self._sync_params()
+            self._sync_buffers()
         if self.device_ids:
             inputs, kwargs = self.scatter(inputs, kwargs, self.device_ids)
             if len(self.device_ids) == 1:

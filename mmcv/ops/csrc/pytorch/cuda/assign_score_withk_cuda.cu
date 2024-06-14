@@ -11,7 +11,7 @@ void AssignScoreWithKForwardCUDAKernelLauncher(
     const Tensor& points, const Tensor& centers, const Tensor& scores,
     const Tensor& knn_idx, Tensor& output) {
   at::cuda::CUDAGuard device_guard(points.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   dim3 blocks(DIVUP(B * O * N1 * K, THREADS_PER_BLOCK));
   dim3 threads(THREADS_PER_BLOCK);
@@ -34,7 +34,7 @@ void AssignScoreWithKBackwardCUDAKernelLauncher(
     const Tensor& scores, const Tensor& knn_idx, Tensor& grad_points,
     Tensor& grad_centers, Tensor& grad_scores) {
   at::cuda::CUDAGuard device_guard(grad_out.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   dim3 blocks1(DIVUP(B * M * O, THREADS_PER_BLOCK));
   dim3 threads1(THREADS_PER_BLOCK);

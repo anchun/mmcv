@@ -18,7 +18,7 @@ void IoU3DBoxesOverlapBevForwardCUDAKernelLauncher(const int num_a,
                                                    const Tensor boxes_b,
                                                    Tensor ans_overlap) {
   at::cuda::CUDAGuard device_guard(boxes_a.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   // blockIdx.x(col), blockIdx.y(row)
   dim3 blocks(DIVUP(num_b, THREADS_PER_BLOCK_IOU3D),
@@ -38,7 +38,7 @@ void IoU3DBoxesIoUBevForwardCUDAKernelLauncher(const int num_a,
                                                const Tensor boxes_b,
                                                Tensor ans_iou) {
   at::cuda::CUDAGuard device_guard(boxes_a.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   // blockIdx.x(col), blockIdx.y(row)
   dim3 blocks(DIVUP(num_b, THREADS_PER_BLOCK_IOU3D),
@@ -56,7 +56,7 @@ void IoU3DNMSForwardCUDAKernelLauncher(const Tensor boxes,
                                        unsigned long long *mask, int boxes_num,
                                        float nms_overlap_thresh) {
   at::cuda::CUDAGuard device_guard(boxes.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   dim3 blocks(DIVUP(boxes_num, THREADS_PER_BLOCK_NMS),
               DIVUP(boxes_num, THREADS_PER_BLOCK_NMS));
@@ -73,7 +73,7 @@ void IoU3DNMSNormalForwardCUDAKernelLauncher(const Tensor boxes,
                                              int boxes_num,
                                              float nms_overlap_thresh) {
   at::cuda::CUDAGuard device_guard(boxes.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   dim3 blocks(DIVUP(boxes_num, THREADS_PER_BLOCK_NMS),
               DIVUP(boxes_num, THREADS_PER_BLOCK_NMS));

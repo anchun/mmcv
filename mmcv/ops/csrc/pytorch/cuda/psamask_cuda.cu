@@ -2,7 +2,7 @@
 // Modified from
 // https://github.com/hszhao/semseg/blob/master/lib/psa/src
 
-#include <THC/THC.h>
+//#include <THC/THC.h>
 #include <torch/serialize/tensor.h>
 
 #include <THC/THCDeviceUtils.cuh>
@@ -17,7 +17,7 @@ void PSAMaskForwardCUDAKernelLauncher(const int psa_type, const Tensor input,
                                       const int half_h_mask,
                                       const int half_w_mask) {
   int nthreads = num_ * h_feature * w_feature;
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   if (psa_type == 0)
     AT_DISPATCH_FLOATING_TYPES(
         input.scalar_type(), "psamask_collect_forward_cuda", [&] {
@@ -42,7 +42,7 @@ void PSAMaskBackwardCUDAKernelLauncher(
     const int num_, const int h_feature, const int w_feature, const int h_mask,
     const int w_mask, const int half_h_mask, const int half_w_mask) {
   int nthreads = num_ * h_feature * w_feature;
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   if (psa_type == 0)
     AT_DISPATCH_FLOATING_TYPES(
         grad_input.scalar_type(), "psamask_collect_backward_cuda", [&] {

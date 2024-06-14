@@ -18,7 +18,7 @@ void ThreeNNForwardCUDAKernelLauncher(int b, int n, int m, const Tensor unknown,
   //      idx: (B, N, 3)
 
   at::cuda::CUDAGuard device_guard(unknown.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   // blockIdx.x(col), blockIdx.y(row)
   dim3 blocks(DIVUP(n, THREADS_PER_BLOCK), b);

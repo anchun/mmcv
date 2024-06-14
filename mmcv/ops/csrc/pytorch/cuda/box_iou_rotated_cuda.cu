@@ -15,7 +15,7 @@ void box_iou_rotated_cuda(const Tensor boxes1, const Tensor boxes2, Tensor ious,
   int num_boxes2 = boxes2.size(0);
 
   at::cuda::CUDAGuard device_guard(boxes1.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   box_iou_rotated_cuda_kernel<scalar_t>
       <<<GET_BLOCKS(output_size), THREADS_PER_BLOCK, 0, stream>>>(
           num_boxes1, num_boxes2, boxes1.data_ptr<scalar_t>(),

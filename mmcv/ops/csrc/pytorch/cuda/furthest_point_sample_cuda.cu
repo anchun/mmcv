@@ -21,7 +21,7 @@ void FurthestPointSamplingForwardCUDAKernelLauncher(int b, int n, int m,
   // output:
   //      idx: (B, M)
 
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   unsigned int n_threads = opt_n_threads(n);
 
@@ -85,7 +85,7 @@ void FurthestPointSamplingWithDistForwardCUDAKernelLauncher(
   // output:
   //      idx: (B, M)
 
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   unsigned int n_threads = opt_n_threads(n);
 

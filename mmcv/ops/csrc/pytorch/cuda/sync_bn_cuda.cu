@@ -8,7 +8,7 @@ void SyncBNForwardMeanCUDAKernelLauncher(const Tensor input, Tensor mean) {
   int spatial = input.size(2);
 
   at::cuda::CUDAGuard device_guard(input.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       input.scalar_type(), "sync_bn_forward_mean_cuda_kernel", [&] {
         sync_bn_forward_mean_cuda_kernel<scalar_t>
@@ -26,7 +26,7 @@ void SyncBNForwardVarCUDAKernelLauncher(const Tensor input, const Tensor mean,
   int spatial = input.size(2);
 
   at::cuda::CUDAGuard device_guard(input.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       input.scalar_type(), "sync_bn_forward_mean_cuda_kernel", [&] {
         sync_bn_forward_var_cuda_kernel<scalar_t>
@@ -47,7 +47,7 @@ void SyncBNForwardOutputCUDAKernelLauncher(
   int spatial = input.size(2);
 
   at::cuda::CUDAGuard device_guard(input.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       input.scalar_type(), "sync_bn_forward_mean_cuda_kernel", [&] {
         sync_bn_forward_output_cuda_kernel<scalar_t>
@@ -71,7 +71,7 @@ void SyncBNBackwardParamCUDAKernelLauncher(const Tensor grad_output,
   int spatial = grad_output.size(2);
 
   at::cuda::CUDAGuard device_guard(grad_output.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       grad_output.scalar_type(), "sync_bn_backward_param_cuda_kernel", [&] {
         sync_bn_backward_param_cuda_kernel<scalar_t>
@@ -95,7 +95,7 @@ void SyncBNBackwardDataCUDAKernelLauncher(const Tensor grad_output,
   int spatial = grad_input.size(2);
 
   at::cuda::CUDAGuard device_guard(grad_input.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       grad_output.scalar_type(), "sync_bn_backward_data_cuda_kernel", [&] {
         sync_bn_backward_data_cuda_kernel<scalar_t>

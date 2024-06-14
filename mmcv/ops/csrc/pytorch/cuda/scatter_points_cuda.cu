@@ -35,7 +35,7 @@ std::vector<at::Tensor> DynamicPointToVoxelForwardCUDAKernelLauncher(
       at::empty({out_coors.size(0), num_feats}, feats.options());
 
   at::cuda::CUDAGuard device_guard(feats.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   AT_DISPATCH_FLOATING_TYPES(
       feats.scalar_type(), "feats_reduce_kernel", ([&] {
@@ -74,7 +74,7 @@ void DynamicPointToVoxelBackwardCUDAKernelLauncher(
 
   if (num_input == 0 || num_reduced == 0) return;
   at::cuda::CUDAGuard device_guard(feats.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   if (reduce_type == reduce_t::MEAN || reduce_type == reduce_t::SUM) {
     AT_DISPATCH_FLOATING_TYPES(

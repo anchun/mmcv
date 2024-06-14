@@ -21,7 +21,7 @@ void RoIPointPool3dForwardCUDAKernelLauncher(
                                 boxes3d.options().dtype(at::kInt));
 
   at::cuda::CUDAGuard device_guard(xyz.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   // blockIdx.x(col), blockIdx.y(row)
   dim3 blocks(DIVUP(pts_num, THREADS_PER_BLOCK), boxes_num, batch_size);

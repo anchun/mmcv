@@ -16,7 +16,7 @@
 
 #include <THC/THCAtomics.cuh>
 #include <vector>
-
+#include <c10/cuda/CUDAStream.h>
 #include "ms_deform_attn_cuda_kernel.cuh"
 
 template <typename scalar_t>
@@ -268,7 +268,7 @@ at::Tensor ms_deform_attn_cuda_forward(const at::Tensor &value,
     AT_DISPATCH_FLOATING_TYPES(
         value.scalar_type(), "ms_deform_attn_forward_cuda", ([&] {
           ms_deformable_im2col_cuda(
-              at::cuda::getCurrentCUDAStream(),
+              c10::cuda::getCurrentCUDAStream(),
               value.data_ptr<scalar_t>() + n * im2col_step_ * per_value_size,
               spatial_shapes.data_ptr<int64_t>(),
               level_start_index.data_ptr<int64_t>(),
@@ -339,7 +339,7 @@ void ms_deform_attn_cuda_backward(
     AT_DISPATCH_FLOATING_TYPES(
         value.scalar_type(), "ms_deform_attn_backward_cuda", ([&] {
           ms_deformable_col2im_cuda(
-              at::cuda::getCurrentCUDAStream(),
+              c10::cuda::getCurrentCUDAStream(),
               grad_output_g.data_ptr<scalar_t>(),
               value.data_ptr<scalar_t>() + n * im2col_step_ * per_value_size,
               spatial_shapes.data_ptr<int64_t>(),

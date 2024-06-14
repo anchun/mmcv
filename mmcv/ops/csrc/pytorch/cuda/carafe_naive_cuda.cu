@@ -13,7 +13,7 @@ void CARAFENAIVEForwardCUDAKernelLauncher(const Tensor features,
   int width = output.size(3);
 
   at::cuda::CUDAGuard device_guard(features.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       features.scalar_type(), "CARAFENAIVEForward", ([&] {
         carafe_naive_forward_cuda_kernel<scalar_t>
@@ -36,7 +36,7 @@ void CARAFENAIVEBackwardCUDAKernelLauncher(
   int width = top_grad.size(3);
 
   at::cuda::CUDAGuard device_guard(top_grad.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
   AT_DISPATCH_FLOATING_TYPES_AND_HALF(
       top_grad.scalar_type(), "CARAFENAIVEBackward", ([&] {
         carafe_naive_backward_cuda_kernel<scalar_t>

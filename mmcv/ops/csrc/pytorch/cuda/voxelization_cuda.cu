@@ -14,7 +14,7 @@ int HardVoxelizeForwardCUDAKernelLauncher(
   // check device
 
   at::cuda::CUDAGuard device_guard(points.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   const int num_points = points.size(0);
   const int num_features = points.size(1);
@@ -153,7 +153,7 @@ void DynamicVoxelizeForwardCUDAKernelLauncher(
   // check device
 
   at::cuda::CUDAGuard device_guard(points.device());
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
   const int num_points = points.size(0);
   const int num_features = points.size(1);

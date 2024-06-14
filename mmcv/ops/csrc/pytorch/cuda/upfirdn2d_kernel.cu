@@ -12,7 +12,7 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <torch/types.h>
-
+#include <c10/cuda/CUDAStream.h>
 #include <ATen/cuda/CUDAApplyUtils.cuh>
 
 static __host__ __device__ __forceinline__ int floor_div(int a, int b) {
@@ -213,7 +213,7 @@ torch::Tensor upfirdn2d_op(const torch::Tensor &input,
                            int pad_y0, int pad_y1) {
   int curDevice = -1;
   cudaGetDevice(&curDevice);
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream(curDevice);
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream(curDevice);
 
   UpFirDn2DKernelParams p;
 

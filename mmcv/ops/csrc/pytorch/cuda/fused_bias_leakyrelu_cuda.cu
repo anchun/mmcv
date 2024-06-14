@@ -12,6 +12,7 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <torch/types.h>
+#include <c10/cuda/CUDAStream.h>
 
 #include <ATen/cuda/CUDAApplyUtils.cuh>
 
@@ -74,7 +75,7 @@ torch::Tensor fused_bias_leakyrelu_op(const torch::Tensor& input,
                                       int grad, float alpha, float scale) {
   int curDevice = -1;
   cudaGetDevice(&curDevice);
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream(curDevice);
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream(curDevice);
 
   auto x = input.contiguous();
   auto b = bias.contiguous();
